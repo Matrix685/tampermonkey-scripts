@@ -7,6 +7,8 @@
 // @match        https://www.youtube.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
 // @grant        none
+// @downloadURL  https://raw.githubusercontent.com/Matrix685/Tampermonkey/refs/heads/main/youtube%20fixes.js?token=GHSAT0AAAAAAC2MCXBW2XN5RY6WFSLEWAA6ZZTXRTA
+// @updateURL    https://raw.githubusercontent.com/Matrix685/Tampermonkey/refs/heads/main/youtube%20fixes.js?token=GHSAT0AAAAAAC2MCXBW2XN5RY6WFSLEWAA6ZZTXRTA
 // ==/UserScript==
 
 (function () {
