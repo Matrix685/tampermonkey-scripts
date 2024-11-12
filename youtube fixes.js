@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      2024-11-13.03
+// @version      12
 // @description  try to take over the world!
 // @author       You
 // @match        https://www.youtube.com/*
