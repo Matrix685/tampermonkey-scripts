@@ -21,6 +21,7 @@
     );
 
     setInterval(fixShortLinks, 500);
+    setInterval(ambientMode, 500);
     unRoundEverything();
     endcardsToggle();
 
@@ -119,5 +120,8 @@
         };
     }
 
-    function ambientMode() {}
+    function ambientMode() {
+        document.querySelector("div#cinematics-container").style.display =
+            "none";
+    }
 })();
