@@ -115,9 +115,10 @@
     function ambientMode() {
         // const menu = document.querySelector("div.ytp-panel-menu");
         // const toggle = document.querySelector("#ytp-id-18 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2)");
-        const content = document.querySelector("#ytp-id-18 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > .ytp-menuitem-content");
 
         setInterval(() => {
+            const content = document.querySelector("#ytp-id-18 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > .ytp-menuitem-content");
+
             document.querySelector("div#cinematics-container").style.display = "none";
 
             content.innerHTML = "no :3";
