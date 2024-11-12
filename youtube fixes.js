@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      2024-11-12.07
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
-// @author       You
+// @author       Matrix685
 // @match        https://www.youtube.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
 // @grant        none
