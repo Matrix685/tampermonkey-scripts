@@ -15,10 +15,7 @@
     "use strict";
 
     // Your code here...
-    console.log(
-        "%cfixing all the shit youtube broke (or made worse). one moment please",
-        "color: #f66; font-size: 3rem;"
-    );
+    console.log("%cfixing all the shit youtube broke (or made worse). one moment please", "color: #f66; font-size: 3rem;");
 
     setInterval(fixShortLinks, 500);
     setInterval(ambientMode, 500);
@@ -26,16 +23,12 @@
     endcardsToggle();
 
     function fixShortLinks() {
-        const shorts = document.querySelectorAll(
-            "ytm-shorts-lockup-view-model-v2:not(.fixed-this-youtube-short-thing)"
-        );
+        const shorts = document.querySelectorAll("ytm-shorts-lockup-view-model-v2:not(.fixed-this-youtube-short-thing)");
 
         shorts.forEach((short) => {
             const shortsContainer = short.parentElement;
 
-            var link = `https://www.youtube.com/watch?v=${short.firstChild.firstChild.href.substring(
-                31
-            )}`;
+            var link = `https://www.youtube.com/watch?v=${short.firstChild.firstChild.href.substring(31)}`;
 
             var a = document.createElement("a");
 
@@ -64,9 +57,7 @@
     function endcardsToggle() {
         // positioning and styling
         const menu = document.querySelector("div.ytp-panel-menu");
-        const previous = document.querySelector(
-            "div.ytp-menuitem:nth-child(4)"
-        );
+        const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
         const newItem = document.createElement("div");
 
         newItem.classList.add("ytp-menuitem");
@@ -102,26 +93,23 @@
         newItem.onclick = () => {
             var endCards = document.querySelectorAll(".ytp-ce-element");
 
-            toggled
-                ? newItem.setAttribute("aria-checked", "false")
-                : newItem.setAttribute("aria-checked", "true");
-
-            toggled = !toggled;
-
             if (toggled) {
+                newItem.setAttribute("aria-checked", "false");
                 endCards.forEach((element) => {
                     element.style.display = "inline";
                 });
             } else {
+                newItem.setAttribute("aria-checked", "true");
                 endCards.forEach((element) => {
                     element.style.display = "none";
                 });
             }
+
+            toggled = !toggled;
         };
     }
 
     function ambientMode() {
-        document.querySelector("div#cinematics-container").style.display =
-            "none";
+        document.querySelector("div#cinematics-container").style.display = "none";
     }
 })();
