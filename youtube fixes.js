@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      2024-11-12.03
+// @version      2024-11-12.05
 // @description  try to take over the world!
 // @author       You
 // @match        https://www.youtube.com/*
@@ -18,7 +18,8 @@
     console.log("%cfixing all the shit youtube broke (or made worse). one moment please", "color: #f66; font-size: 3rem;");
 
     setInterval(fixShortLinks, 500);
-    setInterval(ambientMode, 500);
+    // setInterval(ambientMode, 500);
+    ambientMode();
     unRoundEverything();
     endcardsToggle();
 
@@ -112,6 +113,17 @@
     }
 
     function ambientMode() {
-        document.querySelector("div#cinematics-container").style.display = "none";
+        // const menu = document.querySelector("div.ytp-panel-menu");
+        // const toggle = document.querySelector("#ytp-id-18 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2)");
+        const content = document.querySelector("#ytp-id-18 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > .ytp-menuitem-content");
+
+        setInterval(() => {
+            document.querySelector("div#cinematics-container").style.display = "none";
+
+            content.innerHTML = "no :3";
+
+            content.style.fontSize = "2.5em";
+            content.style.fontWeight = "bold";
+        });
     }
 })();
