@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      2024-11-12.06
-// @description  try to take over the world!
+// @version      2024-11-12.07
+// @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       You
 // @match        https://www.youtube.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
@@ -18,8 +18,7 @@
     console.log("%cfixing all the shit youtube broke (or made worse). one moment please", "color: #f66; font-size: 3rem;");
 
     setInterval(fixShortLinks, 500);
-    // setInterval(ambientMode, 500);
-    ambientMode();
+    setInterval(ambientMode, 500);
     unRoundEverything();
     endcardsToggle();
 
@@ -113,18 +112,13 @@
     }
 
     function ambientMode() {
-        // const menu = document.querySelector("div.ytp-panel-menu");
-        // const toggle = document.querySelector("#ytp-id-18 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2)");
+        const content = document.querySelector("#ytp-id-18 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > .ytp-menuitem-content");
 
-        setInterval(() => {
-            const content = document.querySelector("#ytp-id-18 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > .ytp-menuitem-content");
+        document.querySelector("div#cinematics-container").style.display = "none";
 
-            document.querySelector("div#cinematics-container").style.display = "none";
+        content.innerHTML = "no :3";
 
-            content.innerHTML = "no :3";
-
-            content.style.fontSize = "2.5em";
-            content.style.fontWeight = "bold";
-        });
+        content.style.fontSize = "2.5em";
+        content.style.fontWeight = "bold";
     }
 })();
