@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      2024-11-12.07
+// @version      2024-11-12.08
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -48,7 +48,7 @@
 
     function unRoundEverything() {
         //   uploader's avatar		    your avatar (top right)					      side scroll buttons							  									                       uploader avatars on homepage    commenter avatars															toggles in player menu 				   stuff in the player		   circle in timeline			  avatar in endcard			   							   big avatar on channel page			featured channels							  volume knob				uploader avatars on search page
-        document.querySelector("head > style").innerHTML += `
+        document.querySelector("head > style").innerText += `
 	    *:not(yt-img-shadow#avatar):not(yt-img-shadow.ytd-topbar-menu-button-renderer):not(ytd-button-renderer.yt-horizontal-list-renderer *):not(ytd-button-renderer.yt-horizontal-list-renderer):not(div#avatar-container *):not(yt-img-shadow.ytd-comment-view-model):not(yt-img-shadow#author-thumbnail):not(div.ytp-menuitem-toggle-checkbox):not(.ytp-bezel-text-hide *):not(.ytp-scrubber-container *):not(div.ytp-ce-channel-this):not(.ytp-ce-channel-this *):not(yt-decorated-avatar-view-model *):not(yt-img-shadow.ytd-grid-channel-renderer):not(.ytp-volume-slider *):not(yt-img-shadow.ytd-video-renderer)  {
 			  border-radius: 0px !important;
 			}`;
@@ -116,7 +116,7 @@
 
         document.querySelector("div#cinematics-container").style.display = "none";
 
-        content.innerHTML = "no :3";
+        content.innerText = "no :3";
 
         content.style.fontSize = "2.5em";
         content.style.fontWeight = "bold";
