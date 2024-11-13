@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      2024-11-12.08
+// @version      1.6.1
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -56,15 +56,18 @@
 
     function endcardsToggle() {
         // positioning and styling
-        const menu = document.querySelector("div.ytp-panel-menu");
-        const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
         const newItem = document.createElement("div");
 
         newItem.classList.add("ytp-menuitem");
         newItem.setAttribute("role", "menuitemcheckbox");
         newItem.setAttribute("aria-checked", "true");
 
-        menu.insertBefore(newItem, previous);
+	setInterval(() => {
+		const menu = document.querySelector("div.ytp-panel-menu");
+	        const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
+
+		menu.insertBefore(newItem, previous);
+	}, 500)
 
         const icon = document.createElement("div");
         icon.classList.add("ytp-menuitem-icon");
