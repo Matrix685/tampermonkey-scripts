@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      1.6.1
+// @version      1.6.2
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -96,7 +96,7 @@
         newItem.onclick = () => {
             var endCards = document.querySelectorAll(".ytp-ce-element");
 
-            if (toggled) {
+            if (!toggled) {
                 newItem.setAttribute("aria-checked", "false");
 
                 endCards.forEach((element) => {
