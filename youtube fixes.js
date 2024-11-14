@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      1.6.7
+// @version      1.6.8
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -57,8 +57,6 @@
     function endcardsToggle() {
         // positioning and styling
         const newItem = document.createElement("div");
-        const menu = document.querySelector("div.ytp-panel-menu");
-        const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
 
         newItem.classList.add("ytp-menuitem");
         newItem.setAttribute("role", "menuitemcheckbox");
