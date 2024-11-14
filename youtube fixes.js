@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      1.6.6
+// @version      1.6.7
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -58,17 +58,20 @@
         // positioning and styling
         const newItem = document.createElement("div");
         const menu = document.querySelector("div.ytp-panel-menu");
+        const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
 
         newItem.classList.add("ytp-menuitem");
         newItem.setAttribute("role", "menuitemcheckbox");
         newItem.setAttribute("aria-checked", "true");
 
-        while (menu != null) {
-            menu = document.querySelector("div.ytp-panel-menu");
-        }
+        var append = setInterval(() => {
+            const menu = document.querySelector("div.ytp-panel-menu");
+            const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
 
-        const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
-        menu.insertBefore(newItem, previous);
+            menu.insertBefore(newItem, previous);
+
+            if (previous != null) clearInterval(append);
+        }, 500);
 
         const icon = document.createElement("div");
         icon.classList.add("ytp-menuitem-icon");
