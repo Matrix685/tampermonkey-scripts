@@ -51,7 +51,7 @@
         document.querySelector("head > style").innerText += `
 	    *:not(yt-img-shadow#avatar):not(yt-img-shadow.ytd-topbar-menu-button-renderer):not(ytd-button-renderer.yt-horizontal-list-renderer *):not(ytd-button-renderer.yt-horizontal-list-renderer):not(div#avatar-container *):not(yt-img-shadow.ytd-comment-view-model):not(yt-img-shadow#author-thumbnail):not(div.ytp-menuitem-toggle-checkbox):not(.ytp-bezel-text-hide *):not(.ytp-scrubber-container *):not(div.ytp-ce-channel-this):not(.ytp-ce-channel-this *):not(yt-decorated-avatar-view-model *):not(yt-img-shadow.ytd-grid-channel-renderer):not(.ytp-volume-slider *):not(yt-img-shadow.ytd-video-renderer)  {
 			  border-radius: 0px !important;
-			}`;
+		}`;
     }
 
     function endcardsToggle() {
@@ -62,12 +62,12 @@
         newItem.setAttribute("role", "menuitemcheckbox");
         newItem.setAttribute("aria-checked", "true");
 
-	setInterval(() => {
-		const menu = document.querySelector("div.ytp-panel-menu");
-	        const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
+        setInterval(() => {
+            const menu = document.querySelector("div.ytp-panel-menu");
+            const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
 
-		menu.insertBefore(newItem, previous);
-	}, 500)
+            menu.insertBefore(newItem, previous);
+        }, 500);
 
         const icon = document.createElement("div");
         icon.classList.add("ytp-menuitem-icon");
