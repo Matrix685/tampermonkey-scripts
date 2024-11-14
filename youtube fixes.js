@@ -57,17 +57,18 @@
     function endcardsToggle() {
         // positioning and styling
         const newItem = document.createElement("div");
+        const menu = document.querySelector("div.ytp-panel-menu");
 
         newItem.classList.add("ytp-menuitem");
         newItem.setAttribute("role", "menuitemcheckbox");
         newItem.setAttribute("aria-checked", "true");
 
-        setInterval(() => {
-            const menu = document.querySelector("div.ytp-panel-menu");
-            const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
+        while (menu != null) {
+            menu = document.querySelector("div.ytp-panel-menu");
+        }
 
-            menu.insertBefore(newItem, previous);
-        }, 500);
+        const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
+        menu.insertBefore(newItem, previous);
 
         const icon = document.createElement("div");
         icon.classList.add("ytp-menuitem-icon");
