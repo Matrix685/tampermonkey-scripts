@@ -5,23 +5,30 @@
 // @description  try to take over the world!
 // @author       You
 // @match        https://www.youtube.com/*
-// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
 // @grant        none
 // ==/UserScript==
 
-(function() {
-    'use strict';
+(function () {
+    "use strict";
 
     // Your code here...
     setInterval(removeStyles, 100);
 
     function removeStyles() {
-        document.querySelectorAll("head style:not(#now-hold-on-just-one-second)").forEach(n => { n.remove() });
-        document.querySelectorAll("head link[rel=stylesheet]").forEach(n => { n.remove() });
-        document.querySelectorAll("*").forEach(n => { n.setAttribute("style", "") });
-        document.querySelectorAll("body *:not(div)").forEach(n => { n.remove() });
+        document.querySelectorAll("head style:not(#now-hold-on-just-one-second)").forEach((n) => {
+            n.remove();
+        });
+        document.querySelectorAll("head link[rel=stylesheet]").forEach((n) => {
+            n.remove();
+        });
+        document.querySelectorAll("*").forEach((n) => {
+            n.setAttribute("style", "");
+        });
+        document.querySelectorAll("body *:not(div)").forEach((n) => {
+            n.remove();
+        });
     }
-
 
     const style = document.createElement("style");
     document.querySelector("head").appendChild(style);
@@ -31,10 +38,24 @@
         * {
             background-color: #444;
         }
-    `
-    
+    `;
+
     const body = document.body;
-    body.innerText += `
-        <div class="video-container">
-    `
+    const html = `
+		<div class="video-container">
+			<div>Chrome. You fucking suck.</div>
+		</div>
+	`;
+
+    if (window.trustedTypes && window.trustedTypes.createPolicy && !window.trustedTypes.defaultPolicy) {
+        const policy = window.trustedTypes.createPolicy("default", {
+            createHTML: (string) => string,
+        });
+
+        var trustedHTML = policy.createHTML(html);
+
+        body.innerHTML = trustedHTML;
+    } else {
+        body.innerHTML += html;
+    }
 })();
