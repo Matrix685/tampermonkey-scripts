@@ -1,129 +1,337 @@
 // ==UserScript==
-// @name         Youtube Fixes
+// @name         Really old youtube
 // @namespace    http://tampermonkey.net/
-// @version      1.6.8
-// @description  Fixes various UI things on youtube (and maybe some other stuff)
-// @author       Matrix685
+// @version      2024-11-19
+// @description  try to take over the world!
+// @author       You
 // @match        https://www.youtube.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
 // @grant        none
-// @downloadURL  https://raw.githubusercontent.com/Matrix685/Tampermonkey/refs/heads/main/youtube%20fixes.js
-// @updateURL    https://raw.githubusercontent.com/Matrix685/Tampermonkey/refs/heads/main/youtube%20fixes.js
 // ==/UserScript==
 
-(function () {
-    "use strict";
+(function() {
+    'use strict';
 
     // Your code here...
-    console.log("%cfixing all the shit youtube broke (or made worse). one moment please", "color: #f66; font-size: 3rem;");
+    // setInterval(removeStyles, 100);
+	// setInterval(reorganiseContent, 100);
 
-    setInterval(fixShortLinks, 500);
-    setInterval(ambientMode, 500);
-    unRoundEverything();
-    endcardsToggle();
+	reorganiseContent();
 
-    function fixShortLinks() {
-        const shorts = document.querySelectorAll("ytm-shorts-lockup-view-model-v2:not(.fixed-this-youtube-short-thing)");
+    function removeStyles() {
+        document.querySelectorAll("head style:not(#now-hold-on-just-one-second)").forEach(n => { n.remove() });
+        document.querySelectorAll("head link[rel=stylesheet]").forEach(n => { n.remove() });
+        // document.querySelectorAll("*").forEach(n => { n.setAttribute("style", "") });
+        // document.querySelectorAll("body *:not(#good_stuff_being_added):not(#good_stuff_being_added *)").forEach(n => { n.style.opacity = "0"; });
+		document.querySelectorAll("body *:not(#good_stuff_being_added):not(#good_stuff_being_added *)").forEach(n => { n.style.display = "none"; });
+    }
 
-        shorts.forEach((short) => {
-            const shortsContainer = short.parentElement;
 
-            var link = `https://www.youtube.com/watch?v=${short.firstChild.firstChild.href.substring(31)}`;
+    const style = document.createElement("style");
+    document.querySelector("head").appendChild(style);
+    style.setAttribute("id", "now-hold-on-just-one-second");
 
-            var a = document.createElement("a");
+    style.innerText = `
+		#good_stuff_being_added {
+		  height: 100%;
+		}
 
-            a.href = link;
-            a.classList.add("yt-horizontal-list-renderer");
+		:root {
+		  --main-bg: #ccc;
+		}
 
-            shortsContainer.appendChild(a);
-            a.appendChild(short);
+		* {
+		  box-sizing: border-box;
+		}
 
-            a.querySelectorAll("*").forEach((n) => {
-                n.style.pointerEvents = "none";
-            });
+		body {
+		  height: 100vh;
+		}
 
-            short.classList.add("fixed-this-youtube-short-thing");
+		a {
+		  color: #35f;
+		}
+
+		span, a, p {
+		  font-size: 0.8rem;
+		  margin: 0rem;
+		}
+
+		.content-div {
+		  background-color: var(--main-bg);
+		  padding: 1px;
+		  border-radius: 5px 5px 0px 0px;
+		}
+
+		.video-container {
+		  width: 60%;
+		}
+
+		.content-div > .heading {
+		  display: flex;
+		  justify-content: space-between;
+		  padding: 5px 10px;
+		}
+
+		.video-container > .footer {
+		  display: flex;
+		  justify-content: flex-end;
+		  padding: 5px 10px;
+		}
+
+		.content {
+		  padding: 5px;
+		  display: block;
+		  width: 100%;
+		  height: auto;
+		  background-color: #eee;
+		}
+
+		.video {
+		  margin: 1px;
+		  width: 100%;
+		  height: 10rem;
+		  background-color: red;
+		  border-bottom: 1px dashed #666;
+		}
+
+		.page-header {
+		  height: 15%;
+		}
+
+		.links {
+		  display: flex;
+		  justify-content: space-between;
+		  height: 40%;
+		}
+
+		.page-logo {
+		  height: 100%;
+		}
+
+		.page-header .right-side {
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: space-between;
+		}
+
+		.page-header .right-side a {
+		  padding: 0px 5px;
+		}
+
+		.page-header .search {
+		  display: flex;
+		  justify-content: space-between;
+		  align-items: center;
+		  gap: 5px;
+		}
+
+		.page-header .search-bar {
+		  flex-grow: 1;
+		}
+
+		.tabs {
+		  padding-top: 1em;
+		  height: 60%;
+		  display: flex;
+		  flex-direction: column;
+		}
+
+		.tab-links {
+		  display: flex;
+		  gap: 5px;
+		}
+
+		.tab-links a {
+		  font-size: 1rem;
+		}
+
+		.tab {
+		  flex-grow: 1;
+		  display: flex;
+		  justify-content: center;
+		  background-color: #bcf;
+		  padding: 5px;
+		  border-radius: 5px 5px 0px 0px;
+		  height: calc(100% - 1px);
+		}
+
+		.tab-links > div.active {
+		  background-color: var(--main-bg);
+		  height: 100%;
+		}
+
+		.quick-links {
+		  background-color: var(--main-bg);
+		  flex-grow: 1;
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  gap: 5px;
+		}
+
+		/* div#thumbnail {
+		  position: absolute;
+		  width: 20%;
+		  aspect-ratio: 1;
+		  background-color: black;
+		} */
+
+		/* div#thumbnail {
+		  display: flex;
+		} */
+
+		a#thumbnail {
+		  width: 20%;
+		  aspect-ratio: 1;
+		  display: flex;
+		}
+
+		#thumbnail img {
+		/*   position: absolute; */
+		/*   width: 20%; */
+		  width: 100%;
+		  aspect-ratio: 1;
+		  object-fit: scale-down;
+		  background-color: black;
+		}
+
+		/* ytd-thumbnail {
+		  display: flex;
+		  background-color: black;
+		} */
+    `;
+
+
+	const body = document.body;
+	const container = document.createElement("div");
+	container.setAttribute("id", "good_stuff_being_added");
+
+	body.appendChild(container);
+
+    const html = `
+		<div id="good_stuff_being_added">
+			<div class="page-header">
+			  <div class="links">
+			  	<a href="https://www.youtube.com">
+					<img
+						 class="page-logo"
+						 src="http://web.archive.org/web/20061109210911im_/http://www.youtube.com/img/logo_tagline_sm.gif"
+					>
+				</a>
+				<div class="right-side">
+
+				  <div class="user-links">
+					<a href="#">Sign Up</a>
+					<span>|</span>
+					<a href="#">My Account</a>
+					<span>|</span>
+					<a href="#">History</a>
+					<span>|</span>
+					<a href="#">QuickList</a>
+					<span>|</span>
+					<a href="#">Help</a>
+					<span>|</span>
+					<a href="#">Log In</a>
+				  </div>
+
+				  <div class="search">
+					<p>Search for</p>
+					<input class="search-bar">
+					<button class="search-button">Search</button>
+				  </div>
+				</div>
+
+			  </div>
+
+			  <div class="tabs">
+				<div class="tab-links">
+
+				  <div class="tab home active">
+					<a href="#">Home</a>
+				  </div>
+				  <div class="tab videos">
+					<a href="#">Videos</a>
+				  </div>
+				  <div class="tab channels">
+					<a href="#">Channels</a>
+				  </div><div class="tab groups">
+					<a href="#">Groups</a>
+				  </div>
+				  <div class="tab cats">
+					<a href="#">Categories</a>
+				  </div>
+				  <div class="tab upload">
+					<a href="#">Upload</a>
+				  </div>
+
+				</div>
+
+				<div class="quick-links">
+				  <a href="#">My Account</a>
+				  <span>|</span>
+				  <a href="#">My Videos</a>
+				  <span>|</span>
+				  <a href="#">My Favourites</a>
+				  <span>|</span>
+				  <a href="#">My Friends</a>
+				  <span>|</span>
+				  <a href="#">My Inbox</a>
+				  <span>|</span>
+				  <a href="#">My Subscriptions</a>
+				  <span>|</span>
+				  <a href="#">My Groups</a>
+				  <span>|</span>
+				  <a href="#">My Channel</a>
+				</div>
+			  </div>
+			</div>
+
+			<div class="content-div video-container">
+			  <div class="heading">
+				<p class="featured">Featured Videos</p>
+				<a class="more" href="#">See More Videos</a>
+			  </div>
+			  <div class="content"></div>
+			  <div class="footer">
+				<a href="#">See More Videos</a>
+			  </div>
+			</div>
+		</div>
+	`;
+
+    if (window.trustedTypes && window.trustedTypes.createPolicy && !window.trustedTypes.defaultPolicy) {
+        const policy = window.trustedTypes.createPolicy('default', {
+            createHTML: string => string
         });
-    }
 
-    function unRoundEverything() {
-        //    uploader's avatar         your avatar (top right)                            side scroll buttons                                                                                         uploader avatars on homepage    commenter avatars                                                         toggles in player menu                 stuff in the player        circle in timeline            avatar in endcard                                         big avatar on channel page            featured channels                            volume knob               uploader avatars on search page
-        document.querySelector("head > style").innerText += `
-	        *:not(yt-img-shadow#avatar):not(yt-img-shadow.ytd-topbar-menu-button-renderer):not(ytd-button-renderer.yt-horizontal-list-renderer *):not(ytd-button-renderer.yt-horizontal-list-renderer):not(div#avatar-container *):not(yt-img-shadow.ytd-comment-view-model):not(yt-img-shadow#author-thumbnail):not(div.ytp-menuitem-toggle-checkbox):not(.ytp-bezel-text-hide *):not(.ytp-scrubber-container *):not(div.ytp-ce-channel-this):not(.ytp-ce-channel-this *):not(yt-decorated-avatar-view-model *):not(yt-img-shadow.ytd-grid-channel-renderer):not(.ytp-volume-slider *):not(yt-img-shadow.ytd-video-renderer)  {
-			    border-radius: 0px !important;
-		    }`;
-    }
+        var trustedHTML = policy.createHTML(html);
 
-    function endcardsToggle() {
-        // positioning and styling
-        const newItem = document.createElement("div");
+        container.innerHTML += trustedHTML;
+    } else {
+		container.innerHTML += html;
+	}
 
-        newItem.classList.add("ytp-menuitem");
-        newItem.setAttribute("role", "menuitemcheckbox");
-        newItem.setAttribute("aria-checked", "true");
+	function reorganiseContent() {
+		var append = setInterval(() => {
+			const videoContainer = document.querySelector(".video-container > .content");
+			const videos = document.querySelectorAll("ytd-rich-item-renderer.ytd-rich-grid-renderer:nth-child(2) > div:nth-child(1)");
 
-        var append = setInterval(() => {
-            const menu = document.querySelector("div.ytp-panel-menu");
-            const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
+			// console.log(videos);
 
-            menu.insertBefore(newItem, previous);
+			// videoContainer.appendChild(video);
+			videos.forEach(n => { videoContainer.appendChild(n); });
 
-            if (previous != null) clearInterval(append);
-        }, 500);
+			if (videos[0] != null) {
+				removeStyles();
+				clearInterval(append);
+			}
+		}, 100)
 
-        const icon = document.createElement("div");
-        icon.classList.add("ytp-menuitem-icon");
 
-        newItem.appendChild(icon);
 
-        const label = document.createElement("div");
-        label.classList.add("ytp-menuitem-label");
+	}
 
-        const text = document.createTextNode("Toggle Endcards");
-        label.appendChild(text);
 
-        newItem.appendChild(label);
 
-        const content = document.createElement("div");
-        content.classList.add("ytp-menuitem-content");
-        newItem.appendChild(content);
-
-        const checkbox = document.createElement("div");
-        checkbox.classList.add("ytp-menuitem-toggle-checkbox");
-        content.appendChild(checkbox);
-
-        // actual LOGIC
-        var toggled = true;
-
-        newItem.onclick = () => {
-            var endCards = document.querySelectorAll(".ytp-ce-element");
-
-            if (toggled) {
-                newItem.setAttribute("aria-checked", "false");
-
-                endCards.forEach((element) => {
-                    element.style.display = "none";
-                });
-            } else {
-                newItem.setAttribute("aria-checked", "true");
-
-                endCards.forEach((element) => {
-                    element.style.display = "inline";
-                });
-            }
-
-            toggled = !toggled;
-        };
-    }
-
-    function ambientMode() {
-        const content = document.querySelector("#ytp-id-18 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > .ytp-menuitem-content");
-
-        document.querySelector("div#cinematics-container").style.display = "none";
-
-        content.innerText = "no :3";
-
-        content.style.fontSize = "2.5em";
-        content.style.fontWeight = "bold";
-    }
 })();
