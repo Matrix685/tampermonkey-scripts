@@ -42,8 +42,17 @@
 
     const body = document.body;
     const html = `
-		<div class="video-container">
-			<div>Chrome. You fucking suck.</div>
+		<div id="good_stuff_being_added">
+			<div class="video-container">
+  <div class="heading">
+    <p class="featured">Featured Videos</p>
+    <a class="more" href="#">See More Videos</a>
+  </div>
+  <div class="content"></div>
+  <div class="footer">
+    <a href="#">See More Videos</a>
+			  </div>
+			</div>
 		</div>
 	`;
 
