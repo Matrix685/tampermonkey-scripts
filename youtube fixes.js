@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      1.6.9
+// @version      1.6.10
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -17,8 +17,11 @@
     // Your code here...
     console.log("%cfixing all the shit youtube broke (or made worse). one moment please", "color: #f66; font-size: 3rem;");
 
-    setInterval(fixShortLinks, 500);
-    setInterval(ambientMode, 500);
+    setInterval(() => {
+        fixShortLinks();
+        ambientMode();
+    }, 500);
+
     unRoundEverything();
     endcardsToggle();
 
@@ -47,11 +50,16 @@
     }
 
     function unRoundEverything() {
-        //    uploader's avatar         your avatar (top right)                            side scroll buttons                                                                                         uploader avatars on homepage    commenter avatars                                                         toggles in player menu                 stuff in the player        circle in timeline            avatar in endcard                                                                   big avatar on channel page            featured channels                            volume knob               uploader avatars on search page       big uploader avatar on search page
+        //    side scroll buttons                                                                                         uploader avatars on homepage    toggles in player menu                 stuff in the player        circle in timeline        avatar in endcard                                                                          big avatar on channel page            volume knob               icons + images
         document.querySelector("head > style").innerText += `
-	        *:not(yt-img-shadow#avatar):not(yt-img-shadow.ytd-topbar-menu-button-renderer):not(ytd-button-renderer.yt-horizontal-list-renderer *):not(ytd-button-renderer.yt-horizontal-list-renderer):not(div#avatar-container *):not(yt-img-shadow.ytd-comment-view-model):not(yt-img-shadow#author-thumbnail):not(div.ytp-menuitem-toggle-checkbox):not(.ytp-bezel-text-hide *):not(.ytp-scrubber-container *):not(div.ytp-ce-channel-this):not(div.ytp-ce-channel-this > .ytp-ce-expanding-image):not(yt-decorated-avatar-view-model *):not(yt-img-shadow.ytd-grid-channel-renderer):not(.ytp-volume-slider *):not(yt-img-shadow.ytd-video-renderer):not(yt-img-shadow.ytd-channel-renderer)  {
+	        *:not(ytd-button-renderer.yt-horizontal-list-renderer *):not(ytd-button-renderer.yt-horizontal-list-renderer):not(div#avatar-container *):not(div.ytp-menuitem-toggle-checkbox):not(.ytp-bezel-text-hide *):not(.ytp-scrubber-container *):not(div[class*=ytp-ce-channel]):not(div[class*=ytp-ce-channel] > .ytp-ce-expanding-image):not(yt-decorated-avatar-view-model *):not(.ytp-volume-slider *):not(yt-img-shadow)  {
 			    border-radius: 0px !important;
-		    }`;
+		    }
+
+			#buttons button.yt-spec-button-shape-next {
+				height: 40px;
+			}
+			`;
     }
 
     function endcardsToggle() {
