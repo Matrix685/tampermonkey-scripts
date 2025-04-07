@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      1.6.10
+// @version      1.6.11
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -22,7 +22,7 @@
         ambientMode();
     }, 500);
 
-    unRoundEverything();
+    betterCSS();
     endcardsToggle();
 
     function fixShortLinks() {
@@ -49,7 +49,7 @@
         });
     }
 
-    function unRoundEverything() {
+    function betterCSS() {
         //    side scroll buttons                                                                                         uploader avatars on homepage    toggles in player menu                 stuff in the player        circle in timeline        avatar in endcard                                                                          big avatar on channel page            volume knob               icons + images
         document.querySelector("head > style").innerText += `
 	        *:not(ytd-button-renderer.yt-horizontal-list-renderer *):not(ytd-button-renderer.yt-horizontal-list-renderer):not(div#avatar-container *):not(div.ytp-menuitem-toggle-checkbox):not(.ytp-bezel-text-hide *):not(.ytp-scrubber-container *):not(div[class*=ytp-ce-channel]):not(div[class*=ytp-ce-channel] > .ytp-ce-expanding-image):not(yt-decorated-avatar-view-model *):not(.ytp-volume-slider *):not(yt-img-shadow)  {
@@ -59,7 +59,11 @@
 			#buttons button.yt-spec-button-shape-next {
 				height: 40px;
 			}
-			`;
+			
+			a.yt-horizontal-list-renderer {
+				width: 100%;
+			}
+		`;
     }
 
     function endcardsToggle() {
