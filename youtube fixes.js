@@ -50,9 +50,9 @@
     }
 
     function betterCSS() {
-        //    side scroll buttons                                                                                         uploader avatars on homepage    toggles in player menu                 stuff in the player        circle in timeline        avatar in endcard                                                                          big avatar on channel page            volume knob               icons + images
+        //    side scroll buttons in shorts                                                                               uploader avatars on homepage    toggles in player menu           stuff in the player    circle in timeline      avatar in endcard                                                                          big avatar on channel page            volume knob               icons + images
         document.querySelector("head > style").innerText += `
-	        *:not(ytd-button-renderer.yt-horizontal-list-renderer *):not(ytd-button-renderer.yt-horizontal-list-renderer):not(div#avatar-container *):not(div.ytp-menuitem-toggle-checkbox):not(.ytp-bezel-text-hide *):not(.ytp-scrubber-container *):not(div[class*=ytp-ce-channel]):not(div[class*=ytp-ce-channel] > .ytp-ce-expanding-image):not(yt-decorated-avatar-view-model *):not(.ytp-volume-slider *):not(yt-img-shadow)  {
+	        *:not(ytd-button-renderer.yt-horizontal-list-renderer *):not(ytd-button-renderer.yt-horizontal-list-renderer):not(div#avatar-container *):not(div.ytp-menuitem-toggle-checkbox):not(.ytp-bezel):not(.ytp-scrubber-container *):not(div[class*=ytp-ce-channel]):not(div[class*=ytp-ce-channel] > .ytp-ce-expanding-image):not(yt-decorated-avatar-view-model *):not(.ytp-volume-slider *):not(yt-img-shadow)  {
 			    border-radius: 0px !important;
 		    }
 
