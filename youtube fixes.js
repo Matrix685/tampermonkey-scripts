@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      1.6.14
+// @version      1.6.15
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -129,7 +129,7 @@
     }
 
     function ambientMode() {
-        const content = document.querySelector("#ytp-id-18 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > .ytp-menuitem-content");
+        const content = document.querySelector("div[id*=ytp-id].ytp-settings-menu > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > .ytp-menuitem-content");
 
         document.querySelector("div#cinematics-container").style.display = "none";
 
