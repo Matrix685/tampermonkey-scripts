@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      1.6.15
+// @version      1.6.16
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -27,21 +27,50 @@
 
     function fixShortLinks() {
         const shorts = document.querySelectorAll("ytm-shorts-lockup-view-model-v2:not(.fixed-this-youtube-short-thing)");
+        const referenceShort = document.querySelector("ytm-shorts-lockup-view-model-v2");
+
+        try {
+            const metadataPosition = referenceShort.querySelector(
+                "div.shortsLockupViewModelHostOutsideMetadata.shortsLockupViewModelHostMetadataRounded"
+            ).offsetTop;
+
+            document.documentElement.style.setProperty("--metadata-position", `${metadataPosition}px`);
+
+            console.log(metadataPosition);
+        } catch {
+            console.log("%cfound an oopsie", "color: blue;");
+        }
+
+        // console.log(`%c${metadataPosition}`, "color: lime");
+        // console.log("%cHELP MEEEEEEE", "font-size: 20px;")
 
         shorts.forEach((short) => {
             const shortsContainer = short.parentElement;
 
-            var link = `https://www.youtube.com/watch?v=${short.firstChild.firstChild.href.substring(31)}`;
+            const oldMetadataMenuButton = short.querySelector(".shortsLockupViewModelHostOutsideMetadataMenu");
 
-            var a = document.createElement("a");
+            let link = `https://www.youtube.com/watch?v=${short.firstChild.firstChild.href.substring(31)}`;
+
+            let a = document.createElement("a");
 
             a.href = link;
             a.classList.add("yt-horizontal-list-renderer");
 
             shortsContainer.appendChild(a);
+            shortsContainer.appendChild(oldMetadataMenuButton);
+
             a.appendChild(short);
 
-            a.querySelectorAll("*").forEach((n) => {
+            short.querySelector("ytm-shorts-lockup-view-model-v2 .yt-spec-button-shape-next__icon").style.display = "none";
+
+            const newMetadataMenuButton = shortsContainer.lastElementChild;
+
+            newMetadataMenuButton.classList.add("its-like-a-button-or-something-idk");
+
+            newMetadataMenuButton.onclick = () =>
+                short.querySelector("ytm-shorts-lockup-view-model-v2 .shortsLockupViewModelHostOutsideMetadataMenu").firstElementChild.click();
+
+            a.querySelectorAll("*:not(.shortsLockupViewModelHostOutsideMetadataMenu.shortsLockupViewModelHostShowOverPlayer)").forEach((n) => {
                 n.style.pointerEvents = "none";
             });
 
@@ -56,12 +85,23 @@
 			    border-radius: 0px !important;
 		    }
 
+			:root {
+				--metadata-position: 300px;
+			}
+
 			#buttons button.yt-spec-button-shape-next {
 				height: 40px;
 			}
 			
 			a.yt-horizontal-list-renderer {
+				position: relative;
 				width: 100%;
+				height: 100%;
+			}
+
+			.its-like-a-button-or-something-idk {
+				position: absolute;
+				top: calc(var(--metadata-position) + 2%);
 			}
 		`;
     }
@@ -74,11 +114,15 @@
         newItem.setAttribute("role", "menuitemcheckbox");
         newItem.setAttribute("aria-checked", "true");
 
-        var append = setInterval(() => {
+        let append = setInterval(() => {
             const menu = document.querySelector("div.ytp-panel-menu");
-            const previous = document.querySelector("div.ytp-menuitem:nth-child(4)");
+            const previous = document.querySelector("div.ytp-menuitem:nth-child(3)");
 
-            menu.insertBefore(newItem, previous);
+            try {
+                menu.insertBefore(newItem, previous);
+            } catch {
+                console.log("%cfound an oopsie", "color: blue;");
+            }
 
             if (previous != null) clearInterval(append);
         }, 500);
@@ -105,10 +149,10 @@
         content.appendChild(checkbox);
 
         // actual LOGIC
-        var toggled = true;
+        let toggled = true;
 
         newItem.onclick = () => {
-            var endCards = document.querySelectorAll(".ytp-ce-element");
+            let endCards = document.querySelectorAll(".ytp-ce-element");
 
             if (toggled) {
                 newItem.setAttribute("aria-checked", "false");
@@ -129,13 +173,19 @@
     }
 
     function ambientMode() {
-        const content = document.querySelector("div[id*=ytp-id].ytp-settings-menu > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > .ytp-menuitem-content");
+        const content = document.querySelector(
+            "div[id*=ytp-id].ytp-settings-menu > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > .ytp-menuitem-content"
+        );
 
-        document.querySelector("div#cinematics-container").style.display = "none";
+        try {
+            document.querySelector("div#cinematics-container").style.display = "none";
 
-        content.innerText = "no :3";
+            content.innerText = "no :3";
 
-        content.style.fontSize = "2.5em";
-        content.style.fontWeight = "bold";
+            content.style.fontSize = "2.5em";
+            content.style.fontWeight = "bold";
+        } catch {
+            console.log("%cfound an oopsie", "color: blue;");
+        }
     }
 })();
