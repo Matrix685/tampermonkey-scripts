@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      1.6.16
+// @version      1.6.17
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -60,8 +60,6 @@
             shortsContainer.appendChild(oldMetadataMenuButton);
 
             a.appendChild(short);
-
-            short.querySelector("ytm-shorts-lockup-view-model-v2 .yt-spec-button-shape-next__icon").style.display = "none";
 
             const newMetadataMenuButton = shortsContainer.lastElementChild;
 
