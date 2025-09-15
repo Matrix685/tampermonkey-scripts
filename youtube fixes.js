@@ -72,6 +72,8 @@
                 n.style.pointerEvents = "none";
             });
 
+            short.querySelector("ytm-shorts-lockup-view-model-v2 .yt-spec-button-shape-next__icon").style.display = "none";
+
             short.classList.add("fixed-this-youtube-short-thing");
         });
     }
