@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      1.6.17
+// @version      1.6.18
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -79,9 +79,9 @@
     }
 
     function betterCSS() {
-        //    side scroll buttons in shorts                                                                               uploader avatars on homepage    toggles in player menu           stuff in the player                             circle in timeline      avatar in endcard                                                                          big avatar on channel page            volume knob               icons + images           avatar in playlists
+        //    side scroll buttons in shorts                                                                               uploader avatars on homepage    toggles in player menu           stuff in the player                             circle in timeline      avatar in endcard                                                                          big avatar on channel page            volume knob               icons + images           avatar in playlists                             autoplay toggle
         document.querySelector("head > style.global_styles").innerText += `
-	        *:not(ytd-button-renderer.yt-horizontal-list-renderer *):not(ytd-button-renderer.yt-horizontal-list-renderer):not(div#avatar-container *):not(div.ytp-menuitem-toggle-checkbox):not(.ytp-bezel):not(.ytp-doubletap-ui-legacy *):not(.ytp-scrubber-container *):not(div[class*=ytp-ce-channel]):not(div[class*=ytp-ce-channel] > .ytp-ce-expanding-image):not(yt-decorated-avatar-view-model *):not(.ytp-volume-slider *):not(yt-img-shadow):not(.yt-avatar-stack-view-model-wiz__avatars *)  {
+	        *:not(ytd-button-renderer.yt-horizontal-list-renderer *):not(ytd-button-renderer.yt-horizontal-list-renderer):not(div#avatar-container *):not(div.ytp-menuitem-toggle-checkbox):not(.ytp-bezel):not(.ytp-doubletap-ui-legacy *):not(.ytp-scrubber-container *):not(div[class*=ytp-ce-channel]):not(div[class*=ytp-ce-channel] > .ytp-ce-expanding-image):not(yt-decorated-avatar-view-model *):not(.ytp-volume-slider *):not(yt-img-shadow):not(.yt-avatar-stack-view-model-wiz__avatars *):not(.ytp-autonav-toggle *)  {
 			    border-radius: 0px !important;
 		    }
 
