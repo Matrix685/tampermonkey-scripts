@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      1.6.18
+// @version      1.7.1
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -20,6 +20,7 @@
     setInterval(() => {
         fixShortLinks();
         ambientMode();
+        fullscreenButton();
     }, 500);
 
     betterCSS();
@@ -36,9 +37,10 @@
 
             document.documentElement.style.setProperty("--metadata-position", `${metadataPosition}px`);
 
-            console.log(metadataPosition);
+            // console.log(metadataPosition);
         } catch {
-            console.log("%cfound an oopsie", "color: blue;");
+            // console.log("%cfound an oopsie", "color: blue;");
+            // return;
         }
 
         // console.log(`%c${metadataPosition}`, "color: lime");
@@ -46,8 +48,7 @@
 
         shorts.forEach((short) => {
             const shortsContainer = short.parentElement;
-
-            const oldMetadataMenuButton = short.querySelector(".shortsLockupViewModelHostOutsideMetadataMenu");
+            shortsContainer.style.position = "relative";
 
             let link = `https://www.youtube.com/watch?v=${short.firstChild.firstChild.href.substring(31)}`;
 
@@ -57,51 +58,110 @@
             a.classList.add("yt-horizontal-list-renderer");
 
             shortsContainer.appendChild(a);
-            shortsContainer.appendChild(oldMetadataMenuButton);
 
             a.appendChild(short);
+
+            const oldMetadataMenuButton = short.querySelector(".shortsLockupViewModelHostOutsideMetadataMenu");
+
+            try {
+                shortsContainer.appendChild(oldMetadataMenuButton);
+            } catch {
+                // console.log("help");
+            }
 
             const newMetadataMenuButton = shortsContainer.lastElementChild;
 
             newMetadataMenuButton.classList.add("its-like-a-button-or-something-idk");
 
+            try {
+                newMetadataMenuButton.querySelector("span.yt-icon-shape").innerHTML = `
+					<div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+						<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" style="display: inherit; width: 100%; height: 100%;">
+							<path d="M12 4a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Z"></path>
+						</svg>
+					</div>
+				`;
+            } catch {}
+
+            let path = document.createElement("path");
+            path.setAttribute("d", "M12 4a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Z");
+
+            let svg = document.createElement("svg");
+            svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+            svg.setAttribute("height", "24");
+            svg.setAttributeNS(null, "viewBox", "0 0 24 24");
+            svg.setAttribute("width", "24");
+            svg.setAttribute("focusable", "false");
+            svg.setAttribute("aria-hidden", "true");
+            svg.setAttribute("style", "display: inherit; width: 100%; height: 100%;");
+
+            svg.appendChild(path);
+
+            let iconDiv = document.createElement("div");
+            iconDiv.setAttribute("style", "width: 100%; height: 100%; display: block; fill: currentcolor;");
+
+            iconDiv.appendChild(svg);
+
+            const icon = newMetadataMenuButton.querySelector("span.yt-icon-shape");
+
+            icon.appendChild(iconDiv);
+
             newMetadataMenuButton.onclick = () =>
                 short.querySelector("ytm-shorts-lockup-view-model-v2 .shortsLockupViewModelHostOutsideMetadataMenu").firstElementChild.click();
 
-            a.querySelectorAll("*:not(.shortsLockupViewModelHostOutsideMetadataMenu.shortsLockupViewModelHostShowOverPlayer)").forEach((n) => {
-                n.style.pointerEvents = "none";
-            });
+            a.querySelectorAll("*:not(.shortsLockupViewModelHostOutsideMetadataMenu.shortsLockupViewModelHostShowOverPlayer)").forEach(
+                (n) => (n.style.pointerEvents = "none")
+            );
 
-            short.querySelector("ytm-shorts-lockup-view-model-v2 .yt-spec-button-shape-next__icon").style.display = "none";
+            try {
+                short.querySelector("ytm-shorts-lockup-view-model-v2 .yt-spec-button-shape-next__icon").style.visibility = "hidden";
+            } catch {
+                // console.log("hel");
+            }
 
             short.classList.add("fixed-this-youtube-short-thing");
         });
     }
 
     function betterCSS() {
-        //    side scroll buttons in shorts                                                                               uploader avatars on homepage    toggles in player menu           stuff in the player                             circle in timeline      avatar in endcard                                                                          big avatar on channel page            volume knob               icons + images           avatar in playlists                             autoplay toggle
+        //    side scroll buttons in shorts                                                                               uploader avatars on homepage    toggles in player menu           stuff in the player                             circle in timeline             avatar in endcard                                                                                                      big avatar on channel page            volume knob               icons + images           avatar in playlists                       autoplay toggle
         document.querySelector("head > style.global_styles").innerText += `
-	        *:not(ytd-button-renderer.yt-horizontal-list-renderer *):not(ytd-button-renderer.yt-horizontal-list-renderer):not(div#avatar-container *):not(div.ytp-menuitem-toggle-checkbox):not(.ytp-bezel):not(.ytp-doubletap-ui-legacy *):not(.ytp-scrubber-container *):not(div[class*=ytp-ce-channel]):not(div[class*=ytp-ce-channel] > .ytp-ce-expanding-image):not(yt-decorated-avatar-view-model *):not(.ytp-volume-slider *):not(yt-img-shadow):not(.yt-avatar-stack-view-model-wiz__avatars *):not(.ytp-autonav-toggle *)  {
+	        *:not(ytd-button-renderer.yt-horizontal-list-renderer *):not(ytd-button-renderer.yt-horizontal-list-renderer):not(div#avatar-container *):not(div.ytp-menuitem-toggle-checkbox):not(.ytp-bezel):not(.ytp-doubletap-ui-legacy *):not(.ytp-scrubber-container *):not(div[class*=ytp-ce-channel]):not(div[class*=ytp-ce-channel] > .ytp-ce-expanding-image):not(.ytp-ce-element-shadow):not(yt-decorated-avatar-view-model *):not(.ytp-volume-slider *):not(yt-img-shadow):not(.yt-avatar-stack-view-model-wiz__avatars *):not(.ytp-autonav-toggle *)  {
 			    border-radius: 0px !important;
 		    }
 
-			:root {
+			:root { /* position of stupid short button that no one will ever use */
 				--metadata-position: 300px;
 			}
 
-			#buttons button.yt-spec-button-shape-next {
+			#buttons button.yt-spec-button-shape-next { /* dumb create button at the top that isnt the right height for some reason */
 				height: 40px;
 			}
-			
-			a.yt-horizontal-list-renderer {
+
+			a.yt-horizontal-list-renderer { /* better shorts */
 				position: relative;
 				width: 100%;
 				height: 100%;
 			}
 
-			.its-like-a-button-or-something-idk {
+			.its-like-a-button-or-something-idk { /* stupid short button that no one will ever use once again */
 				position: absolute;
 				top: calc(var(--metadata-position) + 2%);
+			}
+
+			.ytp-ce-hide-button-container,
+			div#cinematics-container,
+			div#cinematics-full-bleed-container { /* things to hide because bad */
+				display: none !important;
+			}
+
+			.i-hate-youtube-and-their-stupid-fullscreen-button { /* ever so slightly better fullscreen button */
+				position: absolute;
+				right: -30px;
+				bottom: 0px;
+				height: 100%;
+				width: 100px;
+				cursor: pointer;
 			}
 		`;
     }
@@ -121,7 +181,8 @@
             try {
                 menu.insertBefore(newItem, previous);
             } catch {
-                console.log("%cfound an oopsie", "color: blue;");
+                // console.log("%cfound an oopsie", "color: blue;");
+                // return;
             }
 
             if (previous != null) clearInterval(append);
@@ -174,18 +235,36 @@
 
     function ambientMode() {
         const content = document.querySelector(
-            "div[id*=ytp-id].ytp-settings-menu > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > .ytp-menuitem-content"
+            "div[id*=ytp-id] > div.ytp-popup-content > div.ytp-panel > div.ytp-panel-menu > div:nth-child(2) > div.ytp-menuitem-content"
         );
 
         try {
-            document.querySelector("div#cinematics-container").style.display = "none";
-
             content.innerText = "no :3";
 
             content.style.fontSize = "2.5em";
             content.style.fontWeight = "bold";
         } catch {
-            console.log("%cfound an oopsie", "color: blue;");
+            // console.log("%cfound an oopsie", "color: blue;");
+            // return;
         }
+    }
+
+    function fullscreenButton() {
+        const controls = document.querySelector(".ytp-chrome-controls:not(.bad-button-made-less-bad-bbutton)");
+
+        if (controls == null) return;
+
+        controls.style.position = "relative";
+
+        let newbutton = document.createElement("div");
+        newbutton.classList.add("i-hate-youtube-and-their-stupid-fullscreen-button");
+
+        try {
+            controls.appendChild(newbutton);
+        } catch {}
+
+        newbutton.onclick = () => document.querySelector(".ytp-fullscreen-button").click();
+
+        controls.classList.add("bad-button-made-less-bad-bbutton");
     }
 })();
