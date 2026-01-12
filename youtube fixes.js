@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Fixes
 // @namespace    http://tampermonkey.net/
-// @version      1.7.1
+// @version      1.7.2
 // @description  Fixes various UI things on youtube (and maybe some other stuff)
 // @author       Matrix685
 // @match        https://www.youtube.com/*
@@ -28,12 +28,18 @@
 
     function fixShortLinks() {
         const shorts = document.querySelectorAll("ytm-shorts-lockup-view-model-v2:not(.fixed-this-youtube-short-thing)");
-        const referenceShort = document.querySelector("ytm-shorts-lockup-view-model-v2");
+        const referenceShorts = document.querySelectorAll("ytm-shorts-lockup-view-model-v2");
 
         try {
-            const metadataPosition = referenceShort.querySelector(
-                "div.shortsLockupViewModelHostOutsideMetadata.shortsLockupViewModelHostMetadataRounded"
-            ).offsetTop;
+            let metadataPosition;
+
+            for (const short of referenceShorts) {
+                const metaButton = short.querySelector("div.shortsLockupViewModelHostOutsideMetadata.shortsLockupViewModelHostMetadataRounded");
+
+                if (metaButton.offsetTop != 0) metadataPosition = metaButton.offsetTop;
+            }
+
+            console.log(metadataPosition);
 
             document.documentElement.style.setProperty("--metadata-position", `${metadataPosition}px`);
 
@@ -81,37 +87,34 @@
 						</svg>
 					</div>
 				`;
-            } catch {}
+            } catch {
+                let path = document.createElement("path");
+                path.setAttribute("d", "M12 4a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Z");
 
-            let path = document.createElement("path");
-            path.setAttribute("d", "M12 4a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Zm0 6a2 2 0 100 4 2 2 0 000-4Z");
+                let svg = document.createElement("svg");
+                svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+                svg.setAttribute("height", "24");
+                svg.setAttributeNS(null, "viewBox", "0 0 24 24");
+                svg.setAttribute("width", "24");
+                svg.setAttribute("focusable", "false");
+                svg.setAttribute("aria-hidden", "true");
+                svg.setAttribute("style", "display: inherit; width: 100%; height: 100%;");
 
-            let svg = document.createElement("svg");
-            svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-            svg.setAttribute("height", "24");
-            svg.setAttributeNS(null, "viewBox", "0 0 24 24");
-            svg.setAttribute("width", "24");
-            svg.setAttribute("focusable", "false");
-            svg.setAttribute("aria-hidden", "true");
-            svg.setAttribute("style", "display: inherit; width: 100%; height: 100%;");
+                svg.appendChild(path);
 
-            svg.appendChild(path);
+                let iconDiv = document.createElement("div");
+                iconDiv.setAttribute("style", "width: 100%; height: 100%; display: block; fill: currentcolor;");
 
-            let iconDiv = document.createElement("div");
-            iconDiv.setAttribute("style", "width: 100%; height: 100%; display: block; fill: currentcolor;");
+                iconDiv.appendChild(svg);
 
-            iconDiv.appendChild(svg);
+                const icon = newMetadataMenuButton.querySelector("span.yt-icon-shape");
 
-            const icon = newMetadataMenuButton.querySelector("span.yt-icon-shape");
+                icon.appendChild(iconDiv);
+            }
 
-            icon.appendChild(iconDiv);
+            newMetadataMenuButton.onclick = () => short.querySelector("ytm-shorts-lockup-view-model-v2 .shortsLockupViewModelHostOutsideMetadataMenu").firstElementChild.click();
 
-            newMetadataMenuButton.onclick = () =>
-                short.querySelector("ytm-shorts-lockup-view-model-v2 .shortsLockupViewModelHostOutsideMetadataMenu").firstElementChild.click();
-
-            a.querySelectorAll("*:not(.shortsLockupViewModelHostOutsideMetadataMenu.shortsLockupViewModelHostShowOverPlayer)").forEach(
-                (n) => (n.style.pointerEvents = "none")
-            );
+            a.querySelectorAll("*:not(.shortsLockupViewModelHostOutsideMetadataMenu.shortsLockupViewModelHostShowOverPlayer)").forEach((n) => (n.style.pointerEvents = "none"));
 
             try {
                 short.querySelector("ytm-shorts-lockup-view-model-v2 .yt-spec-button-shape-next__icon").style.visibility = "hidden";
@@ -234,15 +237,19 @@
     }
 
     function ambientMode() {
-        const content = document.querySelector(
-            "div[id*=ytp-id] > div.ytp-popup-content > div.ytp-panel > div.ytp-panel-menu > div:nth-child(2) > div.ytp-menuitem-content"
-        );
+        const checkboxes = document.querySelectorAll("div[id*=ytp-id] > div.ytp-popup-content > div.ytp-panel > div.ytp-panel-menu > div[role=menuitemcheckbox]");
+
+        let ambientToggle;
+
+        for (const check of checkboxes) {
+            if (check.children[1].innerText.toLowerCase() == "ambient mode") ambientToggle = check.children[2];
+        }
 
         try {
-            content.innerText = "no :3";
+            ambientToggle.innerText = "no :3";
 
-            content.style.fontSize = "2.5em";
-            content.style.fontWeight = "bold";
+            ambientToggle.style.fontSize = "2.5em";
+            ambientToggle.style.fontWeight = "bold";
         } catch {
             // console.log("%cfound an oopsie", "color: blue;");
             // return;
