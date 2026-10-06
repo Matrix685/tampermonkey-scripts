@@ -7,6 +7,8 @@
 // @include      https://www.twitch.tv/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=twitch.tv
 // @grant        none
+// @downloadURL  https://raw.githubusercontent.com/Matrix685/tampermonkey-scripts/refs/heads/main/twitch%20enhancments.js
+// @updateURL    https://raw.githubusercontent.com/Matrix685/tampermonkey-scripts/refs/heads/main/twitch%20enhancments.js
 // ==/UserScript==
 
 (function () {
