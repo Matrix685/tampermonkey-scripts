@@ -55,8 +55,6 @@
 				const firstItem = menuItems.firstElementChild;
 
 				menuItems.insertBefore(upTimeElement, firstItem);
-
-				if (firstItem != null) clearInterval(appendElement);
 			} catch {}
 		}, 100);
 
