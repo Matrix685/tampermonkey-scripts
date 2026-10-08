@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitch Enhancers
 // @namespace    http://tampermonkey.net/
-// @version      1.0.1
+// @version      1.0.2
 // @description  A collection of enhancments for me that I want on twitch you're welcome to ignore this (currently just 1)
 // @author       Matrix685
 // @include      https://www.twitch.tv/*
@@ -55,9 +55,9 @@
 				const firstItem = menuItems.firstElementChild;
 
 				menuItems.insertBefore(upTimeElement, firstItem);
-			} catch {}
 
-			if (firstItem != null) clearInterval(appendElement);
+				if (firstItem != null) clearInterval(appendElement);
+			} catch {}
 		}, 100);
 
 		setInterval(() => {
