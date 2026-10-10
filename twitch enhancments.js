@@ -4,7 +4,7 @@
 // @version      1.0.3
 // @description  A collection of enhancments for me that I want on twitch you're welcome to ignore this (currently just 1)
 // @author       Matrix685
-// @include      https://www.twitch.tv/*
+// @match      https://www.twitch.tv/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=twitch.tv
 // @grant        none
 // @downloadURL  https://raw.githubusercontent.com/Matrix685/tampermonkey-scripts/refs/heads/main/twitch%20enhancments.js
@@ -49,16 +49,14 @@
 		let upTimeElement = document.createElement("div");
 		upTimeElement.id = "new-uptime";
 
-		let appendElement = setInterval(() => {
+		setInterval(() => {
 			try {
 				const menuItems = document.querySelector("div.player-controls__right-control-group");
 				const firstItem = menuItems.firstElementChild;
 
 				menuItems.insertBefore(upTimeElement, firstItem);
 			} catch {}
-		}, 100);
 
-		setInterval(() => {
 			let currentUpTime = document.querySelector("span.live-time p").innerText.split(" ")[0];
 			upTimeElement.innerText = currentUpTime;
 		}, 1000);
